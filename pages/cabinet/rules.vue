@@ -54,6 +54,7 @@ import RulesList2 from '~/components/cabinet/rules/style-2/rules-list'
 
 export default {
     mixins: [languagesMixin],
+    layout: 'cabinet',
     components: {
         'rules-list-1': RulesList1,
         'rules-list-2': RulesList2

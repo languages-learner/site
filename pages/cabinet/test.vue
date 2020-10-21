@@ -1,24 +1,19 @@
 <template>
-    <div class="row m-0 mt-md-5 mt-3 px-4 justify-content-center">
-        <div
-            v-if="!inProcess"
-            class="row m-0 p-0 col-md-10 col-12 justify-content-center"
-        >
+    <content-template subTitle="Test your skills">
+        <div v-if="!inProcess" class="w-100">
             <start-form @startTest="startTest" />
         </div>
-
         <div v-else-if="!complited" class="row m-0 p-0 col-12">
-            <work-form
+            <!--<work-form
                 v-if="testData != null"
                 :testData="testData"
                 @onStartTest="onStartTest"
                 @onCompleteTest="onCompleteTest"
-            />
+            />-->
         </div>
-
         <div v-else class="row col-12">
             <div class="col-12 text-center">
-                <result-form />
+                <!--<result-form />-->
                 <!--<table-word
                     v-if="testData != null && answerItems != null"
                     :fields="answerFields"
@@ -32,7 +27,8 @@
                 >
             </div>
         </div>
-    </div>
+        <div class="row m-0"></div>
+    </content-template>
 </template>
 
 <script>
@@ -41,16 +37,19 @@ import { languagesMixin } from '~/vuex-mixins/languages'
 //import { voiceMixin } from 'store/mixins/voice'
 
 /* Components */
+import ContentTemplate from '~/components/cabinet/content-template'
 import StartForm from '~/components/cabinet/test/start-form'
 import WorkForm from '~/components/cabinet/test/work-form'
 import ResultForm from '~/components/cabinet/test/result-form'
 
 export default {
-    mixins: [languagesMixin, voiceMixin],
+    mixins: [languagesMixin],
+    layout: 'cabinet',
     components: {
-        'start-form': StartForm,
-        'work-form': WorkForm,
-        'result-form': ResultForm
+        'content-template': ContentTemplate,
+        'start-form': StartForm
+        //'work-form': WorkForm,
+        //'result-form': ResultForm
     },
     data() {
         return {

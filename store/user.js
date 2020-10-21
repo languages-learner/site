@@ -1,12 +1,18 @@
 import cookies from 'js-cookie'
 
 export const state = () => ({
-    currentUser: null,
+    currentUser: {
+        inLearningLanguageId: 1,
+        nativeLanguageId: 2
+    },
     currentToken: null
 })
 
 export const getters = {
-    getToken: state => state.currentToken || cookies.get('access_token') || localStorage.getItem('access_token')
+    getToken: state =>
+        state.currentToken ||
+        cookies.get('access_token') ||
+        localStorage.getItem('access_token')
 }
 
 export const actions = {

@@ -1,59 +1,119 @@
 <template>
-    <div class="vtx-sidebar bg-gray-900">
-        <div
-            :style="
-                acticeItemIndex >= 0
-                    ? `top: ${54 * acticeItemIndex}px`
-                    : 'display: none'
-            "
-            class="arrow"
-        ></div>
-        <n-link
-            v-for="(item, index) in items"
-            :key="index"
-            tag="div"
-            :to="localePath(item.route)"
-            class="sidebar-item"
-            :class="$route.fullPath == localePath(item.route) ? 'active' : ''"
-        >
-            <sui-icon size="large" :name="item.icon" />
-            <span class="hidden md:inline" style="margin-top: 2px;">{{
-                item.title
-            }}</span>
-            <div v-if="item.label" class="badge bg-gray-700">
-                <span>{{ item.label }}</span>
-            </div>
-        </n-link>
-        <div class="desc">
-            <span>Developed by VortexChain</span>
-            <a href="https://github.com/VortexChain" target="_blank"
-                >github.com/VortexChain</a
+    <b-container fluid class="sidebar px-0">
+        <h6 style="padding-top: 40px;">MENU</h6>
+        <div class="h-75 d-flex">
+            <b-row
+                no-gutters
+                align-v="start"
+                class="my-auto mx-4"
+                cols-sm="1"
+                cols-md="2"
             >
+                <b-col
+                    v-for="(navigation, index) in navigations"
+                    :key="'navigation' + index"
+                    class="nav-item-container"
+                >
+                    <n-link
+                        tag="div"
+                        :to="localePath(navigation.path)"
+                        class="nav-item"
+                        :class="{ active: isActive(navigation) }"
+                    >
+                        <b-icon :icon="navigation.icon" class="icon" />
+                        {{ navigation.title }}
+                    </n-link>
+                </b-col>
+            </b-row>
         </div>
-    </div>
+    </b-container>
 </template>
 
 <script>
 export default {
-    props: {
-        items: {
-            type: Array,
-            default: () => []
+    props: {},
+    components: {},
+    data() {
+        return {
+            navigations: [
+                {
+                    title: 'Dashboard',
+                    icon: 'pie-chart',
+                    path: '/cabinet/dashboard'
+                },
+                { title: 'Test', icon: 'pencil', path: '/cabinet/test' },
+                { title: 'Add', icon: 'bag-plus', path: '/cabinet/add' },
+                { title: 'Words', icon: 'collection', path: '/cabinet/words' },
+                { title: 'Rules', icon: 'book', path: '/cabinet/rules' },
+                {
+                    title: 'Tasks',
+                    icon: 'card-checklist',
+                    path: '/cabinet/tasks'
+                }
+            ]
+        }
+    },
+    methods: {
+        isActive(navigation) {
+            var el = this.$route.path.split('/')
+            var path = el[el.length - 1]
+            return navigation.title.toLowerCase() == path
         }
     },
     computed: {
         acticeItemIndex() {
-            return this.items.findIndex(
+            return 0
+            /*return this.items.findIndex(
                 item =>
                     this.localePath(item.route) ==
                     this.$nuxt.$nuxt.$route.fullPath
-            )
+            )*/
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
+.sidebar {
+    background: rgba(241, 229, 245, 0.295);
+    height: 100vh;
+    text-align: center;
+
+    .nav-item-container {
+        padding: 5px;
+    }
+
+    .nav-item {
+        height: 100px;
+        width: 100%;
+        /*box-shadow: inset 0 2px 0px rgba(#ffffff, 0.64),
+            0 2px 5px rgba(#0d2750, 0.16);*/
+        border: transparent solid 1px;
+        border-radius: 13px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column;
+        font-size: 0.7rem;
+        cursor: pointer;
+        color: gray;
+
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        &:hover {
+            .active //.active-nav-item;;;;;;;;
+        }
+
+        &.active {
+            background: rgba(58, 189, 230, 0.705);
+            font-weight: bold;
+            color: white;
+        }
+    }
+}
 .vtx-sidebar {
     width: 100%;
     height: 100%;
@@ -62,66 +122,5 @@ export default {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-
-    .arrow {
-        position: absolute;
-        border-right: 17px solid white;
-        border-top: 17px solid transparent;
-        border-bottom: 17px solid transparent;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        right: 0;
-        pointer-events: none;
-        transition: 0.2s;
-    }
-
-    .sidebar-item {
-        width: 100%;
-        height: 54px;
-        display: flex;
-        align-items: center;
-        color: white;
-        text-transform: uppercase;
-        font-weight: 400;
-        cursor: pointer;
-
-        &:hover {
-        }
-
-        &.active {
-            color: @primary-green;
-
-            &:active {
-                color: @primary-green-dark;
-            }
-        }
-
-        .badge {
-            padding: 2px 4px;
-            font-size: 12px;
-            line-height: 14px;
-            margin-left: 10px;
-            color: white;
-        }
-    }
-
-    i {
-        margin-left: 28px;
-        margin-right: 15px;
-    }
-
-    .desc {
-        width: 100%;
-        color: rgb(189, 189, 189);
-        margin-top: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-
-        a:hover {
-            color: white;
-        }
-    }
 }
 </style>

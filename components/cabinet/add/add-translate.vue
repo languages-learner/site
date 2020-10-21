@@ -1,57 +1,119 @@
 <template>
-    <div class="row justify-content-center mt-md-5 mt-1 m-0">
-        <div class="col-md-6 col-12 mt-4 mx-md-4">
-            <div class="text-center">Оригинальный язык</div>
-            <b-form-select
-                class="mt-2"
-                v-model="selectedLangId"
-                :options="_languagesOptions"
-            ></b-form-select>
-        </div>
+    <div>
+        <b-row no-gutters class="justify-content-center">
+            <b-col v-if="false" lg="4" md="6" sm="12">
+                <div class="add-translate-card">
+                    <template>
+                        <div>Оригинальный язык</div>
+                        <b-form-select
+                            class="mt-2"
+                            v-model="selectedLangId"
+                            :options="_languagesOptions"
+                        ></b-form-select>
+                    </template>
+                    <template>
+                        <div>Группа слов</div>
+                        <b-form-select
+                            class="mt-2"
+                            v-model="selectedWordGroupId"
+                            :options="_wordGroupsOptions"
+                        ></b-form-select>
+                    </template>
+                    <template>
+                        <div
+                            class="pointer"
+                            @click="speak(word, selectedLangId)"
+                        >
+                            Слово
+                        </div>
+                        <b-form-textarea
+                            class="mt-2"
+                            size="sm"
+                            v-model="word"
+                        ></b-form-textarea>
+                    </template>
+                    <template>
+                        <div>Перевод</div>
+                        <b-form-textarea
+                            tabindex="0"
+                            v-for="(translate, index) in translates"
+                            :key="index + 'translate'"
+                            class="mt-2"
+                            size="sm"
+                            v-model="translates[index]"
+                        ></b-form-textarea>
+                        <div
+                            class="text-center my-2 pointer"
+                            @click="AddPlaceTranslate"
+                        >
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </div>
+                    </template>
 
-        <div class="col-md-6 col-12 mt-4 mx-md-4">
-            <div class="text-center">Группа слов</div>
-            <b-form-select
-                class="mt-2"
-                v-model="selectedWordGroupId"
-                :options="_wordGroupsOptions"
-            ></b-form-select>
-        </div>
+                    <template>
+                        <b-button
+                            class="w-100"
+                            variant="outline-primary"
+                            @click="AddWord"
+                            >Добавить</b-button
+                        >
+                    </template>
+                </div>
+            </b-col>
+            <b-col lg="6" md="6" sm="12">
+                <div class="add-translate-card">
+                    <div class="d-flex">
+                        <template>
+                            <b-form-select
+                                class="mt-2"
+                                v-model="selectedLangId"
+                                :options="_languagesOptions"
+                                size="sm"
+                            ></b-form-select>
+                        </template>
+                        <template>
+                            <div
+                                class="pointer"
+                                @click="speak(word, selectedLangId)"
+                            >
+                                Слово
+                            </div>
+                            <b-form-input
+                                class="mt-2"
+                                size="sm"
+                                v-model="word"
+                            ></b-form-input>
+                        </template>
+                    </div>
+                    <template>
+                        <div>Перевод</div>
+                        <b-form-textarea
+                            tabindex="0"
+                            v-for="(translate, index) in translates"
+                            :key="index + 'translate'"
+                            class="mt-2"
+                            size="sm"
+                            v-model="translates[index]"
+                        ></b-form-textarea>
+                        <div
+                            class="text-center my-2 pointer"
+                            @click="AddPlaceTranslate"
+                        >
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </div>
+                    </template>
 
-        <div class="col-md-6 col-12 mt-4 mx-md-4">
-            <div
-                class="text-center pointer"
-                @click="speak(word, selectedLangId)"
-            >
-                Слово
-            </div>
-            <b-form-textarea
-                class="mt-2"
-                size="sm"
-                v-model="word"
-            ></b-form-textarea>
-        </div>
-
-        <div class="col-md-6 col-12 mt-4 mx-md-4">
-            <div class="text-center">Перевод</div>
-            <b-form-textarea
-                tabindex="0"
-                v-for="(translate, index) in translates"
-                :key="index + 'translate'"
-                class="mt-2"
-                size="sm"
-                v-model="translates[index]"
-            ></b-form-textarea>
-            <div class="text-center mt-2 pointer" @click="AddPlaceTranslate">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-12 mt-4 mx-md-4 text-center">
-            <b-button class="w-100" variant="outline-primary" @click="AddWord"
-                >Добавить</b-button
-            >
-        </div>
+                    <template>
+                        <b-button
+                            class="w-100"
+                            variant="outline-primary"
+                            @click="AddWord"
+                            >Добавить</b-button
+                        >
+                    </template>
+                </div>
+            </b-col>
+        </b-row>
     </div>
 </template>
 
@@ -88,3 +150,15 @@ export default {
     }
 }
 </script>
+
+<style lang="less">
+.ll-card {
+    &.add-translate-card {
+        > .card-body {
+            > div {
+                color: rgba(58, 189, 230, 0.705);
+            }
+        }
+    }
+}
+</style>

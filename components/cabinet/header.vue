@@ -1,12 +1,12 @@
 <template>
-    <header class="row w-100 px-5 mt-3 mx-0">
-        <div class="col-2 p-0"></div>
-        <div class="col-8 p-0"><div class="logo text-center">Languages Learner</div></div>
-        <div class="col-2 p-0 d-flex align-items-center justify-content-end">
-            <div class="split-button d-flex align-items-center justify-content-center" :class="{ enabled: _splitScreenEnable, disabled: !_splitScreenEnable }" @click="_splitScreen">
-                <i class="fa fa-strikethrough" aria-hidden="true"></i>
-            </div>
-        </div>
+    <header>
+        <b-row no-gutters class="w-100">
+            <b-col cols-sm="4" cols-md="2" class="title">{{ title }}</b-col>
+            <b-col cols-sm="8" cols-md="10" class="avatar-container">
+                <b-avatar rounded text="AC" size="2rem"></b-avatar>
+                <span class="px-2">{{ 'Chernigin Alexander' }}</span>
+            </b-col>
+        </b-row>
     </header>
 </template>
 
@@ -15,11 +15,41 @@
 import { styleMixin } from '~/vuex-mixins/style'
 
 export default {
-    mixins: [styleMixin]
+    mixins: [styleMixin],
+    computed: {
+        title() {
+            var el = this.$route.path.split('/')
+            var str = el[el.length - 1]
+            if (str && str.length > 0)
+                return str[0].toUpperCase() + str.substring(1)
+            return ''
+        }
+    }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+header {
+    width: 100%;
+
+    .title {
+        font-size: 0.8rem;
+        color: rgba(58, 189, 230, 0.705);
+        font-weight: bold;
+    }
+
+    .avatar-container {
+        display: flex;
+        flex-flow: row-reverse;
+        align-items: center;
+
+        span {
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+    }
+}
+
 .split-button {
     width: 30px;
     height: 30px;

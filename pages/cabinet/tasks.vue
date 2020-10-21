@@ -37,6 +37,7 @@ import AddTask from '~/components/cabinet/tasks/add/add-task'
 
 export default {
     mixins: [languagesMixin],
+    layout: 'cabinet',
     components: {
         'tasks-list': TasksList,
         task: Task,

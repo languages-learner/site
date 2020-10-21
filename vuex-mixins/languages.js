@@ -27,7 +27,7 @@ export const languagesMixin = {
             })
         },
         _wordGroupsOptions() {
-            return this._wordGroupsOptions.map(x => {
+            return this._wordGroups.map(x => {
                 return { value: x.id, text: x.name }
             })
         },

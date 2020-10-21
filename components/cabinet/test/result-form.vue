@@ -87,7 +87,7 @@ import { languagesMixin } from '~/vuex-mixins/languages'
 //import { voiceMixin } from 'store/mixins/voice'
 
 export default {
-    mixins: [languagesMixin, voiceMixin],
+    mixins: [languagesMixin],
     components: {},
     data() {
         return {

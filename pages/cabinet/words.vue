@@ -1,77 +1,98 @@
 <template>
-    <div class="row mt-md-5 mt-3 m-0 justify-content-center">
-        <div class="col-12 p-0 m-0 row justify-content-center">
-            <div class="col-12 text-center mb-2 mx-0">Столбцы</div>
-            <b-form-checkbox-group
-                v-model="selectedAdditions"
-                :options="additions"
-                class="col-12 text-center"
-            ></b-form-checkbox-group>
+    <content-template subTitle="Improve your vocabulary">
+        <b-row no-gutters>
+            <b-col lg="3" md="4" sm="12">
+                <b-form-input
+                    ref="search-input"
+                    v-model="searchText"
+                    :autofocus="true"
+                    placeholder="Поиск"
+                ></b-form-input>
+            </b-col>
+            <!--
+                <b-col
+                md="4"
+                sm="12"
+                class="d-flex align-items-center justify-content-start pl-md-2"
+            >
+                <div
+                    v-for="(language, index) in _languages"
+                    :key="'language' + index"
+                    class="img-sm-selector"
+                    :class="{ active: selectedLangsId.includes(language.id) }"
+                    @click="selectLanguage(language)"
+                >
+                    <img :src="language.picture" />
+                </div>
+            </b-col>
+            -->
+            <b-col
+                lg="1"
+                md="4"
+                sm="12"
+                v-if="searchText && searchText != ''"
+                class="pl-md-2"
+            >
+                <b-button variant="info" class="w-100">Add</b-button>
+            </b-col>
+            <b-col lg="2" md="3" sm="6" class="pl-md-2">
+                <b-dropdown text="Columns" class="w-100" variant="info">
+                    <b-dropdown-form>
+                        <b-form-checkbox-group
+                            v-model="selectedAdditions"
+                            :options="additions"
+                        ></b-form-checkbox-group>
+                    </b-dropdown-form>
+                </b-dropdown>
+            </b-col>
+            <b-col lg="2" md="3" sm="6" class="pl-md-2">
+                <b-dropdown text="Filters" class="w-100" variant="info">
+                    <b-dropdown-form>
+                        <b-form-checkbox-group
+                            v-model="selectedFilters"
+                            :options="filters"
+                        ></b-form-checkbox-group>
+                    </b-dropdown-form>
+                </b-dropdown>
+            </b-col>
+            <b-col lg="2" md="2" sm="12" class="pl-md-2">
+                <b-button variant="outline-primary" @click="loadTranslates">
+                    <i class="fa fa-refresh" aria-hidden="true"></i
+                ></b-button>
+                <b-button variant="outline-primary" @click="shuffleWordsItems">
+                    <i class="fa fa-exchange" aria-hidden="true"></i
+                ></b-button>
+            </b-col>
+        </b-row>
+        <div class="w-100 mt-4">
+            <h7 class="value-words-label">WORDS: {{ valueWords }}</h7>
         </div>
-
-        <div class="col-12 mt-4 p-0 m-0 row justify-content-center">
-            <div class="col-12 text-center mb-2 mx-0">Фильтр</div>
-            <b-form-checkbox-group
-                v-model="selectedFilters"
-                :options="filters"
-                class="col-12 text-center"
-            ></b-form-checkbox-group>
-        </div>
-
-        <div class="col-12 mt-4 p-0 m-0 row justify-content-center">
-            <div class="col-12 text-center mb-2 mx-0">Языки</div>
-            <b-form-checkbox-group
-                v-model="selectedLangsId"
-                :options="languages"
-                class="col-12 text-center"
-            ></b-form-checkbox-group>
-        </div>
-
-        <div class="col-md-6 col-12 mt-3">
-            <b-form-input
-                ref="search-input"
-                v-model="searchText"
-                :autofocus="true"
-                placeholder="Поиск"
-            ></b-form-input>
-        </div>
-
-        <div class="col-12 mt-3 d-flex justify-content-center">
-            <div>Слов: {{ valueWords }}</div>
-            <div class="pointer ml-3 main-color" @click="LoadTranslates">
-                <i class="fa fa-refresh" aria-hidden="true"></i>
-            </div>
-            <div class="pointer ml-3 main-color" @click="shuffleWordsItems">
-                <i class="fa fa-exchange" aria-hidden="true"></i>
-            </div>
-        </div>
-
-        <div class="col-12 mt-3 p-0">
-            <!--<table-word
-                :fields="wordFields"
-                :items="wordItems"
-                :tableBusyState="tableBusyState"
-                :searchText="searchText"
-                @onFiltered="onFiltered"
-            />-->
-        </div>
-    </div>
+        <table-word
+            :fields="wordFields"
+            :items="wordItems"
+            :tableBusyState="tableBusyState"
+            :searchText="searchText"
+            @onFiltered="onFiltered"
+        />
+    </content-template>
 </template>
 
 <script>
 /* Mixins */
 import { languagesMixin } from '~/vuex-mixins/languages'
+import { userMixin } from '~/vuex-mixins/user'
 //import { voiceMixin } from 'store/mixins/voice'
 
 /* Components */
-//import TableWord from './table-word'
-import { setTimeout } from 'timers'
+import ContentTemplate from '~/components/cabinet/content-template'
+import TableWord from '~/components/cabinet/words/table-word'
 
 export default {
-    mixins: [languagesMixin, voiceMixin],
-    props: { activeTab: { type: Number, required: true } },
+    mixins: [languagesMixin, userMixin],
+    layout: 'cabinet',
     components: {
-        //'table-word': TableWord
+        'content-template': ContentTemplate,
+        'table-word': TableWord
     },
     data() {
         return {
@@ -96,11 +117,6 @@ export default {
         }
     },
     computed: {
-        languages() {
-            return this.allLanguages.map(x => {
-                return { value: x.id, text: x.name }
-            })
-        },
         wordFields() {
             return this.selectedLangsId
                 .map(x => {
@@ -123,23 +139,24 @@ export default {
     },
     watch: {
         selectedLangsId() {
-            this.LoadTranslates()
-        },
-        selectedAdditions() {},
-        activeTab() {
-            if (this.activeTab == 2) this.$refs['search-input'].focus()
+            //this.loadTranslates()
         }
     },
     methods: {
-        LoadTranslates() {
+        loadTranslates() {
             this.$set(this, 'tableBusyState', true)
-            this.getTranslates({ languagesId: this.selectedLangsId }).then(
-                data => {
+            this.$apiCore
+                .GetTranslates({
+                    languagesId: [
+                        this._currentUser.inLearningLanguageId,
+                        this._currentUser.nativeLanguageId
+                    ]
+                })
+                .then(data => {
                     this.translates = data
                     this.setWords()
                     this.$set(this, 'tableBusyState', false)
-                }
-            )
+                })
         },
         onFiltered(filteredItems) {
             this.valueWords = filteredItems.length
@@ -203,6 +220,33 @@ export default {
                 this.$set(this, 'tableBusyState', false)
             }, 1000)
         }
+        /*selectLanguage(language) {
+            var index = this.selectedLangsId.findIndex(x => x == language.id)
+            if (index != -1) {
+                this.selectedLangsId.splice(index, 1)
+            } else {
+                this.selectedLangsId.push(language.id)
+            }
+        }*/
     }
 }
 </script>
+
+<style lang="less" scoped>
+.img-sm-selector {
+    width: 40px;
+
+    &:hover {
+        .active;
+    }
+
+    &.active {
+        outline: rgba(58, 189, 230, 0.705) solid 2px;
+    }
+}
+
+.value-words-label {
+    color: #6c757d;
+    font-size: 0.7rem;
+}
+</style>

@@ -31,7 +31,8 @@ module.exports = {
     css: [
         '~assets/css/global.css',
         '~assets/less/transitions.less',
-        '~assets/less/scrollbars.less'
+        '~assets/less/scrollbars.less',
+        '~assets/less/cabinet.less'
     ],
     styleResources: {
         less: [
@@ -42,9 +43,9 @@ module.exports = {
     },
     // cache: true,
     modules: [
+        'bootstrap-vue/nuxt',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/style-resources',
-        'semantic-ui-vue/nuxt',
         'cookie-universal-nuxt',
         'nuxt-i18n',
         '@nuxtjs/axios',
