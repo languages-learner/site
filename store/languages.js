@@ -1,5 +1,12 @@
 export const state = () => ({
-    languages: [],
+    languages: [
+        {
+            id: 1,
+            name: 'english',
+            picture:
+                'https://i.pinimg.com/736x/af/85/4e/af854ef78ca26b15f40a67b4a947d0e0--flag-of-england-england-uk.jpg'
+        }
+    ],
     wordGroups: [],
 
     statusesTask: [],

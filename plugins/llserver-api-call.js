@@ -1,11 +1,13 @@
-import axios from "axios";
-import Vue from "vue";
+import axios from 'axios'
+import Vue from 'vue'
 
 const apiCall = ({ url, method, obj }) =>
     new Promise((resolve, reject) => {
-        url = "http://109.195.85.22:12001" + url;
+        reject()
+        return
+        url = 'http://109.195.85.22:12001' + url
         axios({
-            method: method == null ? "GET" : method,
+            method: method == null ? 'GET' : method,
             /*headers: {
                 Authorization: localStorage.getItem('token') && localStorage.getItem('token') != '' ? 'Bearer ' + localStorage.getItem('token') : ''
             },*/
@@ -15,86 +17,86 @@ const apiCall = ({ url, method, obj }) =>
             .then(response => {
                 if (
                     process.env.NODE_ENV === undefined ||
-                    process.env.NODE_ENV === "development"
+                    process.env.NODE_ENV === 'development'
                 ) {
-                    console.log("URL", url);
-                    console.log("API", response);
+                    console.log('URL', url)
+                    console.log('API', response)
                 }
 
                 if (response === undefined || response.data === undefined) {
-                    let error = new Error("Данные отсутствуют");
-                    reject(error);
-                    return;
+                    let error = new Error('Данные отсутствуют')
+                    reject(error)
+                    return
                 }
 
-                let data = response.data;
-                console.log(data, data);
+                let data = response.data
+                console.log(data, data)
 
                 if (data.error) {
                     if (
                         process.env.NODE_ENV === undefined ||
-                        process.env.NODE_ENV === "development"
+                        process.env.NODE_ENV === 'development'
                     ) {
-                        console.log(url);
-                        console.log(data.data);
+                        console.log(url)
+                        console.log(data.data)
                     }
 
                     if (!data.data) {
-                        reject(data.error);
-                        return;
+                        reject(data.error)
+                        return
                     }
                 }
 
-                if (!data.data && typeof data.data != "boolean") {
-                    let er = "Нет данных";
-                    reject(er);
-                    return;
+                if (!data.data && typeof data.data != 'boolean') {
+                    let er = 'Нет данных'
+                    reject(er)
+                    return
                 }
 
                 if (Array.isArray(data.data)) {
-                    let parsed = [];
+                    let parsed = []
                     data.data.forEach(el => {
                         parsed.push(
                             JSON.parse(JSON.stringify(el), JSON.dateParser)
-                        );
-                    });
+                        )
+                    })
 
-                    console.log(parsed);
-                    resolve(parsed);
-                    return;
+                    console.log(parsed)
+                    resolve(parsed)
+                    return
                 }
 
-                if (typeof data.data === "string") {
+                if (typeof data.data === 'string') {
                     try {
-                        resolve(JSON.parse(data.data, JSON.dateParser));
+                        resolve(JSON.parse(data.data, JSON.dateParser))
                     } catch (err) {
-                        let errText = "Сервер прислал невалидные данные";
+                        let errText = 'Сервер прислал невалидные данные'
                         if (
                             process.env.NODE_ENV === undefined ||
-                            process.env.NODE_ENV === "development"
+                            process.env.NODE_ENV === 'development'
                         ) {
-                            console.log(url);
-                            console.log(data.data);
+                            console.log(url)
+                            console.log(data.data)
                         }
-                        reject(errText);
+                        reject(errText)
                     }
-                    return;
+                    return
                 }
 
-                resolve(data.data);
+                resolve(data.data)
             })
             .catch(function(error) {
-                console.log("api error");
+                console.log('api error')
 
                 if (
                     process.env.NODE_ENV === undefined ||
-                    process.env.NODE_ENV === "development"
+                    process.env.NODE_ENV === 'development'
                 ) {
-                    console.log(url);
-                    console.log(error);
+                    console.log(url)
+                    console.log(error)
                 }
-                reject(error);
-            });
-    });
+                reject(error)
+            })
+    })
 
-Vue.prototype.$apiCall = apiCall;
+Vue.prototype.$apiCall = apiCall

@@ -1,58 +1,24 @@
 <template>
     <div>
-        <nav-menu>
+        <!--<div v-if="false && !currentUser" class="cabinet-stub">
+            <div>
+                <span>Вы не авторизованы</span>
+            </div>
+            <nuxt-link :to="localePath('index')"
+                >Вы будете перенаправлены на главную страницу</nuxt-link
+            >
+        </div>-->
+        <div class="d-flex">
+            <div class="sidebar-container"><cabinet-sidebar /></div>
+            <div class="cabinet-body">
+                <cabinet-header />
+                <nuxt />
+            </div>
+        </div>
+
+        <!--<nav-menu>
             <div slot="content">
-                <div v-if="!currentUser" class="cabinet-stub">
-                    <div>
-                        <span>Вы не авторизованы</span>
-                    </div>
-                    <nuxt-link :to="localePath('index')"
-                        >Вы будете перенаправлены на главную страницу</nuxt-link
-                    >
-                </div>
-                <div v-else class="lay">
-                    <cabinet-header />
-                    <div class="sidebar">
-                        <cabinet-sidebar
-                            :items="[
-                                {
-                                    icon: 'user',
-                                    title: 'Profile',
-                                    route: 'cabinet-profile'
-                                },
-                                {
-                                    icon: 'cog',
-                                    title: 'Settings',
-                                    route: 'cabinet-settings'
-                                },
-                                {
-                                    icon: 'terminal',
-                                    title: 'Terminal',
-                                    route: 'cabinet-terminal'
-                                },
-                                {
-                                    icon: 'podcast',
-                                    title: 'Streaming',
-                                    route: 'cabinet-streaming'
-                                },
-                                {
-                                    icon: 'th large',
-                                    title: 'Subscripton',
-                                    route: 'cabinet-subscriptions',
-                                    label: 'entp'
-                                },
-                                {
-                                    icon: 'comments',
-                                    title: 'Chat',
-                                    route: 'cabinet-chat'
-                                }
-                            ]"
-                        />
-                    </div>
-                    <main class="p-5">
-                        <nuxt />
-                    </main>
-                </div>
+                
             </div>
             <template slot="menu-collapse">
                 <n-link
@@ -112,7 +78,7 @@
                     <i class="fa fa-info" aria-hidden="true"></i>
                 </n-link>
             </template>
-        </nav-menu>
+        </nav-menu>-->
     </div>
 </template>
 
@@ -133,13 +99,20 @@ export default {
         'cabinet-header': Header,
         'cabinet-sidebar': Sidebar
     },
-    created() {
+    mounted() {
+        console.log(this.$apiCore, 'this.$apiCore')
         this.$apiCore.GetLanguages().then(data => {
+            this._setLanguages(data)
+        })
+    },
+    created() {
+        return
+        /*this.$apiCore.GetLanguages().then(data => {
             this._setLanguages(data)
         })
         this.$apiCore.GetWordGroups().then(data => {
             this._setWordGroups(data)
-        })
+        })*/
     },
     watch: {},
     methods: {}
@@ -147,49 +120,20 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.lay {
-    // height: 100vh;
-    width: 100%;
-    overflow-x: hidden;
-    display: flex;
-    flex-wrap: wrap;
-
-    header {
-        width: 100%;
-    }
-
-    .sidebar {
-        height: calc(100vh - 90px);
-        width: 230px;
-    }
-
-    main {
-        height: calc(100vh - 90px);
-        flex: 1 1 0%;
-        overflow-y: auto;
-    }
+.sidebar-container {
+    width: 25%;
+    min-width: 250px;
+    max-width: 290px;
 }
 
-.cabinet-stub {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.cabinet-body {
+    width: 75%;
+    margin: 40px 60px 0 60px;
 }
 
-@media (max-width: 767px) {
-    .lay {
-        .sidebar {
-            display: none;
-        }
-
-        main {
-            height: calc(100% - 90px);
-            flex-grow: 1;
-            overflow-y: auto;
-        }
+@media (max-width: @md) {
+    .sidebar-container {
+        display: none;
     }
 }
 </style>

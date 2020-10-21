@@ -1,5 +1,86 @@
 <template>
     <div>
+        <b-row>
+            <template>
+                <b-col sm="12" md="6">
+                    <b-card
+                        img-src="https://www.inturact.com/hs-fs/hub/333468/file-2413503609-jpg/blog-images/Translate.jpg"
+                        img-alt="Card Image"
+                        class="ll-card"
+                        :class="{ active: activeTest == 1 }"
+                        v-b-toggle.collapse-1
+                        no-body
+                    >
+                        <b-collapse id="collapse-1">
+                            <b-row class="mt-4 text-center px-3 pb-3">
+                                <b-col cols="12" class="text-muted"
+                                    >Configuration</b-col
+                                >
+                                <b-col lg="6" md="12" sm="12">
+                                    First language
+                                    <b-form-select
+                                        v-model="testData.firstLangId"
+                                        :options="_languagesOptions"
+                                    ></b-form-select
+                                ></b-col>
+                                <b-col lg="6" md="12" sm="12">
+                                    Second language
+                                    <b-form-select
+                                        v-model="testData.secondLangId"
+                                        :options="_languagesOptions"
+                                    ></b-form-select
+                                ></b-col>
+                                <b-col cols="12">
+                                    Words group
+                                    <b-form-select
+                                        v-model="testData.selectedWordGroupId"
+                                        :options="_wordGroupsOptions"
+                                    ></b-form-select>
+                                </b-col>
+                                <b-col cols="12">
+                                    Words group
+                                    <b-form-select
+                                        v-model="testData.selectedWordGroupId"
+                                        :options="_wordGroupsOptions"
+                                    ></b-form-select>
+                                </b-col>
+                                <b-col cols="12">
+                                    Numbers of questions
+                                    <b-form-input
+                                        v-model.number="testData.valueWord"
+                                        placeholder=""
+                                    ></b-form-input>
+                                </b-col>
+                                <b-col cols="12">
+                                    <b-form-checkbox
+                                        v-model="testData.withAnswers"
+                                        :value="true"
+                                        :unchecked-value="false"
+                                        >With answers</b-form-checkbox
+                                    >
+                                    <b-form-checkbox
+                                        v-model="testData.withAssociation"
+                                        :value="true"
+                                        :unchecked-value="false"
+                                        >With associations</b-form-checkbox
+                                    >
+                                </b-col>
+                                <b-col cols="12">
+                                    <b-button
+                                        class="w-100"
+                                        variant="outline-primary"
+                                        @click="startTest"
+                                        >Начать</b-button
+                                    >
+                                </b-col>
+                            </b-row>
+                        </b-collapse>
+                    </b-card>
+                </b-col>
+            </template>
+        </b-row>
+    </div>
+    <!--<div>
         <div class="col-md-3 col-12">
             Основной язык
             <b-form-select
@@ -71,18 +152,21 @@
                 button
             ></b-form-checkbox-group>
         </div>
-    </div>
+    </div>-->
 </template>
 
 <script>
 /* Mixins */
 import { languagesMixin } from '~/vuex-mixins/languages'
+/* Components */
+import LLCard from '~/components/ll-card'
 
 export default {
     mixins: [languagesMixin],
     components: {},
     data() {
         return {
+            activeTest: 0,
             testData: {
                 firstLangId: 1,
                 secondLangId: 2,
@@ -91,10 +175,7 @@ export default {
 
                 withAnswers: false,
                 withAssociation: true
-            },
-
-            timeStamps: [],
-            selectedTimeStamps: []
+            }
         }
     },
     methods: {
@@ -129,3 +210,5 @@ export default {
     }
 }
 </script>
+
+<style lang="less"></style>
