@@ -1,5 +1,5 @@
 <template>
-    <content-template subTitle="Test your skills">
+    <CabinetContentTemplate subTitle="Test your skills">
         <div v-if="!inProcess" class="w-100">
             <start-form @startTest="startTest" />
         </div>
@@ -28,25 +28,27 @@
             </div>
         </div>
         <div class="row m-0"></div>
-    </content-template>
+    </CabinetContentTemplate>
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-//import { voiceMixin } from 'store/mixins/voice'
-
 /* Components */
-import ContentTemplate from '~/components/cabinet/content-template'
+//import ContentTemplate from '~/components/cabinet/content-template'
 import StartForm from '~/components/cabinet/test/start-form'
 import WorkForm from '~/components/cabinet/test/work-form'
 import ResultForm from '~/components/cabinet/test/result-form'
 
 export default {
-    mixins: [languagesMixin],
     layout: 'cabinet',
+    dirs: [
+        '~/components',
+        {
+            path: '~/components/cabinet/',
+            prefix: 'Cabinet'
+        }
+    ],
     components: {
-        'content-template': ContentTemplate,
+        //'content-template': ContentTemplate,
         'start-form': StartForm
         //'work-form': WorkForm,
         //'result-form': ResultForm

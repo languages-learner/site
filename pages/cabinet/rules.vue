@@ -44,16 +44,12 @@
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-
 /* Components */
 import RulesList1 from '~/components/cabinet/rules/style-1/rules-list'
 import RulesList2 from '~/components/cabinet/rules/style-2/rules-list'
 //import AddRule from './add-rule/add-rule'
 
 export default {
-    mixins: [languagesMixin],
     layout: 'cabinet',
     components: {
         'rules-list-1': RulesList1,

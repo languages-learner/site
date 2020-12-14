@@ -1,10 +1,39 @@
 <template>
     <header>
         <b-row no-gutters class="w-100">
-            <b-col cols-sm="4" cols-md="2" class="title">{{ title }}</b-col>
+            <b-col
+                cols-sm="4"
+                cols-md="2"
+                class="title d-flex align-items-center"
+                >{{ title }}</b-col
+            >
             <b-col cols-sm="8" cols-md="10" class="avatar-container">
-                <b-avatar rounded text="AC" size="2rem"></b-avatar>
-                <span class="px-2">{{ 'Chernigin Alexander' }}</span>
+                <b-dropdown
+                    size="lg"
+                    variant="link"
+                    toggle-class="text-decoration-none p-0"
+                    no-caret
+                    right
+                >
+                    <template #button-content>
+                        <span class="px-2 name">{{ currentUserFullName }}</span>
+                        <b-avatar
+                            rounded
+                            :text="currentUserInitials"
+                            size="2rem"
+                        ></b-avatar>
+                    </template>
+                    <b-dropdown-item href="#"
+                        ><n-link
+                            tag="div"
+                            :to="localePath('/cabinet/profile')"
+                            class="nav-item"
+                        >
+                            Profile
+                        </n-link></b-dropdown-item
+                    >
+                    <b-dropdown-item href="#">Logout</b-dropdown-item>
+                </b-dropdown>
             </b-col>
         </b-row>
     </header>
@@ -12,10 +41,10 @@
 
 <script>
 /* Mixins */
-import { styleMixin } from '~/vuex-mixins/style'
+import { userMixin } from '~/vuex-mixins/user.js'
 
 export default {
-    mixins: [styleMixin],
+    mixins: [userMixin],
     computed: {
         title() {
             var el = this.$route.path.split('/')
@@ -43,6 +72,9 @@ header {
         flex-flow: row-reverse;
         align-items: center;
 
+        .name {
+            color: black;
+        }
         span {
             font-size: 0.7rem;
             font-weight: bold;

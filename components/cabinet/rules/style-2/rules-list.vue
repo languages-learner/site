@@ -47,7 +47,6 @@
 
 <script>
 /* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
 import { styleMixin } from '~/vuex-mixins/style'
 
 /* Components */
@@ -55,7 +54,7 @@ import { styleMixin } from '~/vuex-mixins/style'
 import RuleDetails from './rule-details'
 
 export default {
-    mixins: [languagesMixin, styleMixin],
+    mixins: [styleMixin],
     props: {
         rules: {
             type: Array,

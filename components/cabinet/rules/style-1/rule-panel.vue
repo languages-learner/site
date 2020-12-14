@@ -44,13 +44,9 @@
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-
 /* Components */
 
 export default {
-    mixins: [languagesMixin],
     props: {
         rule: {
             type: Object,

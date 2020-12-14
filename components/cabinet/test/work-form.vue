@@ -90,11 +90,7 @@
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-
 export default {
-    mixins: [languagesMixin],
     props: {
         testData: {
             type: Object,

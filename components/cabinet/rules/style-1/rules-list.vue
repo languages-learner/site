@@ -19,15 +19,11 @@
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-
 /* Components */
 import RulePanel from './rule-panel'
 import ModalRuleDetails from './modal-rule-details'
 
 export default {
-    mixins: [languagesMixin],
     props: {
         rules: {
             type: Array,

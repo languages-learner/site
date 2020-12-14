@@ -33,18 +33,33 @@
                     <strong>Loading...</strong>
                 </div>
 
-                <template v-for="index in 4" :slot="index" slot-scope="data">
-                    <span
-                        class="pointer"
-                        @click="speak(data.value, index)"
-                        :key="index + 'voice'"
-                    >
-                        <i
-                            v-if="data.value && data.value != '' && false"
-                            class="fa fa-volume-down pr-2"
-                            aria-hidden="true"
-                        ></i>
-                        {{ data.value }}
+                <template #cell(0)="data">
+                    <span :key="0 + 'translate'">
+                        {{
+                            data.value
+                                .map(translate => translate.text)
+                                .join(', ')
+                        }}
+                    </span>
+                </template>
+
+                <template #cell(1)="data">
+                    <span :key="1 + 'translate'">
+                        {{
+                            data.value
+                                .map(translate => translate.text)
+                                .join(', ')
+                        }}
+                    </span>
+                </template>
+
+                <template #cell(2)="data">
+                    <span :key="2 + 'translate'">
+                        {{
+                            data.value
+                                .map(translate => translate.text)
+                                .join(', ')
+                        }}
                     </span>
                 </template>
 
