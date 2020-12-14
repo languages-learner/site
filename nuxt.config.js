@@ -27,28 +27,36 @@ module.exports = {
             }
         ]
     },
-    loading: { color: '#3B8070' },
-    css: [
-        '~assets/css/global.css',
-        '~assets/less/transitions.less',
-        '~assets/less/scrollbars.less',
-        '~assets/less/cabinet.less'
-    ],
-    styleResources: {
-        less: [
-            '~/assets/less/colors.less',
-            '~/assets/less/dark-colors.less',
-            '~/assets/less/variables.less'
+    components: true,
+    components: {
+        dirs: [
+            '~/components',
+            {
+                path: '~/components/cabinet/',
+                prefix: 'Cabinet'
+            },
+            {
+                path: '~/components/cabinet/add',
+                prefix: 'CabinetAdd'
+            },
+            {
+                path: '~/components/cabinet/words',
+                prefix: 'CabinetWords'
+            }
         ]
     },
+    loading: { color: '#3B8070' },
+    css: ['~assets/css/global.css', '~assets/less/scrollbars.less'],
+    styleResources: { less: ['~/assets/less/variables.less'] },
     // cache: true,
     modules: [
         'bootstrap-vue/nuxt',
-        '@nuxtjs/tailwindcss',
-        '@nuxtjs/style-resources',
         'cookie-universal-nuxt',
+        'nuxt-vuex-router-sync',
         'nuxt-i18n',
         '@nuxtjs/axios',
+        '@nuxtjs/style-resources',
+
         ['@nuxtjs/pwa', {}],
         [
             'nuxt-izitoast',
@@ -88,7 +96,7 @@ module.exports = {
                     auth: true
                     //messaging: true
                 },
-                useOnly: ['auth', 'messaging']
+                useOnly: ['auth']
             }
         ]
     ],
@@ -127,14 +135,17 @@ module.exports = {
         }
     },
     plugins: [
-        { src: '~/plugins/additions.js', ssr: false },
-        { src: '~/plugins/auth-handler.js', ssr: false },
-        //{ src: '~/plugins/notifications.js', ssr: false },
-        { src: '~/plugins/nuxt-client-init.js', ssr: false },
-        { src: '~/plugins/llserver-api-call.js', ssr: false },
-        { src: '~/plugins/llserver-api.js', ssr: false },
-        { src: '~/plugins/axios' }
+        { src: '~/plugins/additions.js', ssr: true },
+        { src: '~/plugins/auth-handler.js', mode: 'client' },
+        { src: '~/plugins/nuxt-client-init.js', mode: 'client' },
+        { src: '~/plugins/axios' },
+        { src: '~/api/index.js' },
+        { src: '~/resources/index.js' }
     ],
+    axios: {
+        https: false,
+        baseURL: 'http://192.168.0.104:5000'
+    },
     build: {
         babel: {
             presets({ isServer }) {
@@ -166,7 +177,7 @@ module.exports = {
     },
     server: {
         port: 12001, // default: 3000
-        host: 'localhost', // default: localhost,
+        host: '192.168.0.104', // default: localhost,
         timing: false
     }
 }

@@ -57,11 +57,7 @@
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-
 export default {
-    mixins: [languagesMixin],
     data() {
         return {
             selectedLangId: 2,

@@ -1,5 +1,3 @@
-import { SPLIT_SCREEN } from '~/store/actions/style'
-
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 export const styleMixin = {
@@ -11,7 +9,7 @@ export const styleMixin = {
     },
     methods: {
         ...mapActions({
-            _splitScreen: 'style/' + SPLIT_SCREEN
+            _splitScreen: 'style/SplitScreen'
         })
     }
 }

@@ -1,18 +1,36 @@
 import cookies from 'js-cookie'
+import Vue from 'vue'
 
 export const state = () => ({
-    currentUser: {
-        inLearningLanguageId: 1,
-        nativeLanguageId: 2
-    },
+    currentUser: null,
     currentToken: null
 })
 
+export const mutations = {
+    setUser(state, user) {
+        state.currentUser = user
+    },
+    setToken(state, token) {
+        state.currentToken = token
+        cookies.set('access_token', token)
+        this.$axios.setToken(token, 'Bearer')
+    },
+    removeToken(state) {
+        state.currentToken = null
+        cookies.remove('access_token')
+        this.$axios.setToken(false)
+    },
+    updateCurrentUserData(state, data) {
+        for (var key in data) {
+            Vue.set(state.currentUser, key, data[key])
+        }
+        console.log(state.currentUser, 'state.currentUser')
+    }
+}
+
 export const getters = {
-    getToken: state =>
-        state.currentToken ||
-        cookies.get('access_token') ||
-        localStorage.getItem('access_token')
+    getCurrentUser: state => state.currentUser,
+    getUserToken: state => state.currentToken || cookies.get('access_token')
 }
 
 export const actions = {
@@ -138,23 +156,8 @@ export const actions = {
                     reject(error)
                 })
         })
-    }
-}
-
-export const mutations = {
-    setUser(state, user) {
-        state.currentUser = user
     },
-    setToken(state, token) {
-        state.currentToken = token
-        cookies.set('access_token', token)
-        localStorage.setItem('access_token', token)
-        this.$axios.setToken(token, 'Bearer')
-    },
-    removeToken(state) {
-        state.currentToken = null
-        cookies.remove('access_token')
-        localStorage.removeItem('access_token')
-        this.$axios.setToken(false)
+    updateCurrentUserData({ commit }, data) {
+        commit('updateCurrentUserData', data)
     }
 }

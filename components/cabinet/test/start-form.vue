@@ -156,13 +156,7 @@
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-/* Components */
-import LLCard from '~/components/ll-card'
-
 export default {
-    mixins: [languagesMixin],
     components: {},
     data() {
         return {

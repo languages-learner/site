@@ -1,11 +1,11 @@
 <template>
-    <b-container fluid class="sidebar px-0">
-        <h6 style="padding-top: 40px;">MENU</h6>
-        <div class="h-75 d-flex">
+    <div class="sidebar">
+        <label>MENU</label>
+        <div class="nav-items-container">
             <b-row
                 no-gutters
                 align-v="start"
-                class="my-auto mx-4"
+                class="nav-items-row"
                 cols-sm="1"
                 cols-md="2"
             >
@@ -26,7 +26,7 @@
                 </b-col>
             </b-row>
         </div>
-    </b-container>
+    </div>
 </template>
 
 <script>
@@ -41,15 +41,15 @@ export default {
                     icon: 'pie-chart',
                     path: '/cabinet/dashboard'
                 },
-                { title: 'Test', icon: 'pencil', path: '/cabinet/test' },
+                //{ title: 'Test', icon: 'pencil', path: '/cabinet/test' },
                 { title: 'Add', icon: 'bag-plus', path: '/cabinet/add' },
-                { title: 'Words', icon: 'collection', path: '/cabinet/words' },
-                { title: 'Rules', icon: 'book', path: '/cabinet/rules' },
-                {
+                { title: 'Words', icon: 'collection', path: '/cabinet/words' }
+                //{ title: 'Rules', icon: 'book', path: '/cabinet/rules' },
+                /*{
                     title: 'Tasks',
                     icon: 'card-checklist',
                     path: '/cabinet/tasks'
-                }
+                }*/
             ]
         }
     },
@@ -79,6 +79,20 @@ export default {
     height: 100vh;
     text-align: center;
 
+    label {
+        padding-top: 40px;
+    }
+
+    .nav-items-container {
+        height: 75%;
+        display: flex;
+    }
+
+    .nav-items-row {
+        margin: auto 10px;
+        width: 100%;
+    }
+
     .nav-item-container {
         padding: 5px;
     }
@@ -86,8 +100,6 @@ export default {
     .nav-item {
         height: 100px;
         width: 100%;
-        /*box-shadow: inset 0 2px 0px rgba(#ffffff, 0.64),
-            0 2px 5px rgba(#0d2750, 0.16);*/
         border: transparent solid 1px;
         border-radius: 13px;
         display: flex;
@@ -104,7 +116,7 @@ export default {
         }
 
         &:hover {
-            .active //.active-nav-item;;;;;;;;
+            .active;
         }
 
         &.active {
@@ -113,14 +125,5 @@ export default {
             color: white;
         }
     }
-}
-.vtx-sidebar {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
 }
 </style>

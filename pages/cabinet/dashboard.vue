@@ -1,14 +1,16 @@
 <template>
-    <content-template subTitle="Bonjour Alexander"> </content-template>
+    <CabinetContentTemplate :subTitle="'Bonjour ' + currentUserFirstName">
+        123123
+    </CabinetContentTemplate>
 </template>
 
 <script>
-import ContentTemplate from '~/components/cabinet/content-template'
+/* Mixins */
+import { userMixin } from '~/vuex-mixins/user.js'
 export default {
     layout: 'cabinet',
-    components: {
-        'content-template': ContentTemplate
-    }
+    mixins: [userMixin],
+    mounted() {}
 }
 </script>
 

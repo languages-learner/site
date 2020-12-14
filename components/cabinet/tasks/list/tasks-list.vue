@@ -13,14 +13,10 @@
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-
 /* Components */
 import TaskPanel from './task-panel'
 
 export default {
-    mixins: [languagesMixin],
     components: {
         'task-panel': TaskPanel
     },

@@ -5,34 +5,29 @@
                 <div class="row p-0 m-0">
                     <div class="form-signup col-12">
                         <h1 class="logo">Itmogram</h1>
-                        <h2 class="discription">
-                            Зарегистрируйтесь, чтобы смотреть фото и видео ваших
-                            друзей.
-                        </h2>
-
                         <div class="flex items-center justify-around">
                             <b-button
                                 class="form-input"
                                 v-show="state != 'success'"
-                                @click="registerWith(_loginWithGoogle)"
+                                @click="loginWith(_loginWithGoogle)"
                                 >Google</b-button
                             >
                             <b-button
                                 class="form-input"
                                 v-show="state != 'success'"
-                                @click="registerWith(_loginWithFacebook)"
+                                @click="loginWith(_loginWithFacebook)"
                                 >Facebook</b-button
                             >
                             <b-button
                                 class="form-input"
                                 v-show="state != 'success'"
-                                @click="registerWith(_loginWithGithub)"
+                                @click="loginWith(_loginWithGithub)"
                                 >Github</b-button
                             >
                             <b-button
                                 class="form-input"
                                 v-show="state != 'success'"
-                                @click="registerWith(_loginWithMicrosoft)"
+                                @click="loginWith(_loginWithMicrosoft)"
                                 >Microsoft</b-button
                             >
                         </div>
@@ -60,19 +55,19 @@
                             class="ui error message form-input"
                         >
                             <div class="header">Ошибка</div>
-                            <p>{{ error }}</p>
+                            <span>{{ error }}</span>
                         </div>
 
                         <b-button
                             class="form-input"
                             v-show="state != 'success'"
                             @click.prevent="
-                                registerWith(_loginUser, {
+                                loginWith(loginUser, {
                                     login: email,
                                     password: password
                                 })
                             "
-                            >Signup</b-button
+                            >Log in</b-button
                         >
                         <div class="text-muted form-input">Forget password</div>
 
@@ -81,17 +76,19 @@
                             class="ui success message form-input"
                         >
                             <div class="header">Успешно</div>
-                            <p>Вы будете перенаправлены в ваш кабинет</p>
+                            <span>Вы будете перенаправлены в ваш кабинет</span>
                         </div>
                     </div>
-                    <div class="form-signup form-have-account col-12">
-                        Есть аккаунт?
+                    <div
+                        class="form-signup form-have-account col-12 text-center"
+                    >
+                        Нет аккаунта?
                         <nuxt-link
                             tag="span"
-                            :to="localePath('login')"
+                            :to="localePath('signup')"
                             class="registration-text pl-2"
                         >
-                            Вход</nuxt-link
+                            Регистрация</nuxt-link
                         >
                     </div>
                 </div>
@@ -104,6 +101,7 @@
 import { userMixin } from '~/vuex-mixins/user'
 export default {
     name: 'Login',
+    layout: 'sign',
     mixins: [userMixin],
     data() {
         return {
@@ -114,40 +112,37 @@ export default {
         }
     },
     methods: {
-        registerWith(func, args) {
+        loginWith(func, args) {
             this.state = 'loading'
+
             func(args)
-                .then(result => {
+                .then(() => {
                     this.state = 'success'
-
-                    let cred = null
-                    if (args) {
-                        cred = new PasswordCredential({
-                            id: args.login,
-                            name: args.name,
-                            password: args.password
-                            // iconURL: iconUrl
-                        })
-                    }
-                    // else{
-                    //     cred = new FederatedCredential({
-                    //         id: result.user.email,
-                    //         name: result.user.displayName ? result.user.displayName : undefined,
-                    //         provider: 'https://' + result.credential.providerId,
-                    //         iconURL: result.user.photoURL ? result.user.photoURL : undefined,
-                    //     });
-                    // }
-
-                    /*console.log(navigator, "navigator");
-                    navigator.credentials.store(cred).then(function (arg) {
-                        // Do something else.
-                    });*/
-
                     this.$nuxt.$router.push(this.localePath('index'))
                 })
                 .catch(error => {
                     this.error = error.message
                     this.state = 'error'
+                })
+        }
+    },
+    mounted() {
+        if (window.PasswordCredential || window.FederatedCredential) {
+            navigator.credentials
+                .get({
+                    password: true
+                })
+                .then(credential => {
+                    if (credential) {
+                        switch (credential.type) {
+                            case 'password':
+                                this._loginWith(this.loginUser, {
+                                    login: credential.id,
+                                    password: credential.password
+                                })
+                                break
+                        }
+                    }
                 })
         }
     }

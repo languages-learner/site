@@ -1,9 +1,12 @@
 <template>
-    <div>cabinet</div>
+    <div></div>
 </template>
 
 <script>
 export default {
-    layout: 'cabinet'
+    layout: 'cabinet',
+    mounted() {
+        this.$nuxt.$router.push('cabinet/dashboard')
+    }
 }
 </script>

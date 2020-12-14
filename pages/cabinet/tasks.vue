@@ -26,9 +26,6 @@
 </template>
 
 <script>
-/* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
-
 /* Components */
 import TasksList from '~/components/cabinet/tasks/list/tasks-list'
 import Task from '~/components/cabinet/tasks/task/task'
@@ -36,7 +33,6 @@ import AddTask from '~/components/cabinet/tasks/add/add-task'
 //import { setTimeout } from 'timers'
 
 export default {
-    mixins: [languagesMixin],
     layout: 'cabinet',
     components: {
         'tasks-list': TasksList,

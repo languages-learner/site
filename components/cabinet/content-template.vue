@@ -17,3 +17,11 @@ export default {
     }
 }
 </script>
+
+<style lang="less" scoped>
+.cabinet-lay {
+    .content {
+        margin-top: 30px;
+    }
+}
+</style>

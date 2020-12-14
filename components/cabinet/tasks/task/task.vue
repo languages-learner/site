@@ -297,7 +297,6 @@
 
 <script>
 /* Mixins */
-import { languagesMixin } from '~/vuex-mixins/languages'
 import { styleMixin } from '~/vuex-mixins/style'
 
 /* Components */
@@ -305,7 +304,7 @@ import jQuery from 'jquery'
 import $ from 'jquery'
 
 export default {
-    mixins: [languagesMixin, styleMixin],
+    mixins: [styleMixin],
     props: {
         task: {
             type: Object,
