@@ -1,99 +1,95 @@
 <template>
     <div>
-        <content-container>
-            <div class="form-container">
-                <div class="row p-0 m-0">
-                    <div class="form-signup col-12">
-                        <h1 class="logo">Itmogram</h1>
-                        <div class="flex items-center justify-around">
-                            <b-button
-                                class="form-input"
-                                v-show="state != 'success'"
-                                @click="loginWith(_loginWithGoogle)"
-                                >Google</b-button
-                            >
-                            <b-button
-                                class="form-input"
-                                v-show="state != 'success'"
-                                @click="loginWith(_loginWithFacebook)"
-                                >Facebook</b-button
-                            >
-                            <b-button
-                                class="form-input"
-                                v-show="state != 'success'"
-                                @click="loginWith(_loginWithGithub)"
-                                >Github</b-button
-                            >
-                            <b-button
-                                class="form-input"
-                                v-show="state != 'success'"
-                                @click="loginWith(_loginWithMicrosoft)"
-                                >Microsoft</b-button
-                            >
-                        </div>
-
-                        <div class="divider">
-                            <div class="line"></div>
-                            <div class="text">ИЛИ</div>
-                            <div class="line"></div>
-                        </div>
-
-                        <b-form-input
-                            class="form-input"
-                            v-model="email"
-                            placeholder="Email"
-                        ></b-form-input>
-
-                        <b-form-input
-                            class="form-input"
-                            v-model="password"
-                            placeholder="Password"
-                        ></b-form-input>
-
-                        <div
-                            v-if="error != null"
-                            class="ui error message form-input"
-                        >
-                            <div class="header">Ошибка</div>
-                            <span>{{ error }}</span>
-                        </div>
-
+        <div class="form-container">
+            <div class="row p-0 m-0">
+                <div class="form-signup col-12">
+                    <h1 class="logo">Languages Learner</h1>
+                    <div class="flex items-center justify-around">
                         <b-button
                             class="form-input"
                             v-show="state != 'success'"
-                            @click.prevent="
-                                loginWith(loginUser, {
-                                    login: email,
-                                    password: password
-                                })
-                            "
-                            >Log in</b-button
+                            @click="loginWith(_loginWithGoogle)"
+                            >Google</b-button
                         >
-                        <div class="text-muted form-input">Forget password</div>
-
-                        <div
-                            v-if="state == 'success'"
-                            class="ui success message form-input"
+                        <b-button
+                            class="form-input"
+                            v-show="state != 'success'"
+                            @click="loginWith(_loginWithFacebook)"
+                            >Facebook</b-button
                         >
-                            <div class="header">Успешно</div>
-                            <span>Вы будете перенаправлены в ваш кабинет</span>
-                        </div>
+                        <b-button
+                            class="form-input"
+                            v-show="state != 'success'"
+                            @click="loginWith(_loginWithGithub)"
+                            >Github</b-button
+                        >
+                        <b-button
+                            class="form-input"
+                            v-show="state != 'success'"
+                            @click="loginWith(_loginWithMicrosoft)"
+                            >Microsoft</b-button
+                        >
                     </div>
+
+                    <div class="divider">
+                        <div class="line"></div>
+                        <div class="text">ИЛИ</div>
+                        <div class="line"></div>
+                    </div>
+
+                    <b-form-input
+                        class="form-input"
+                        v-model="email"
+                        placeholder="Email"
+                    ></b-form-input>
+
+                    <b-form-input
+                        class="form-input"
+                        v-model="password"
+                        placeholder="Password"
+                    ></b-form-input>
+
                     <div
-                        class="form-signup form-have-account col-12 text-center"
+                        v-if="error != null"
+                        class="ui error message form-input"
                     >
-                        Нет аккаунта?
-                        <nuxt-link
-                            tag="span"
-                            :to="localePath('signup')"
-                            class="registration-text pl-2"
-                        >
-                            Регистрация</nuxt-link
-                        >
+                        <div class="header">Ошибка</div>
+                        <span>{{ error }}</span>
+                    </div>
+
+                    <b-button
+                        class="form-input"
+                        v-show="state != 'success'"
+                        @click.prevent="
+                            loginWith(loginUser, {
+                                login: email,
+                                password: password
+                            })
+                        "
+                        >Log in</b-button
+                    >
+                    <div class="text-muted form-input">Forget password</div>
+
+                    <div
+                        v-if="state == 'success'"
+                        class="ui success message form-input"
+                    >
+                        <div class="header">Успешно</div>
+                        <span>Вы будете перенаправлены в ваш кабинет</span>
                     </div>
                 </div>
+                <div class="form-signup form-have-account col-12 text-center">
+                    Нет аккаунта?
+                    <nuxt-link
+                        tag="span"
+                        :to="localePath('signup')"
+                        class="registration-text pl-2"
+                    >
+                        Регистрация</nuxt-link
+                    >
+                </div>
             </div>
-        </content-container>
+        </div>
     </div>
 </template>
 
@@ -101,7 +97,7 @@
 import { userMixin } from '~/vuex-mixins/user'
 export default {
     name: 'Login',
-    layout: 'sign',
+    middleware: 'auth',
     mixins: [userMixin],
     data() {
         return {
@@ -127,6 +123,10 @@ export default {
         }
     },
     mounted() {
+        /*if (this.checkCurrentUser()) {
+            this.$nuxt.$router.push(this.localePath('/cabinet/dashboard'))
+        }*/
+
         if (window.PasswordCredential || window.FederatedCredential) {
             navigator.credentials
                 .get({
@@ -145,6 +145,13 @@ export default {
                     }
                 })
         }
+    },
+    watch: {
+        currentUser() {
+            if (this.checkCurrentUser()) {
+                this.$nuxt.$router.push(this.localePath('/cabinet/dashboard'))
+            }
+        }
     }
 }
 </script>
@@ -154,7 +161,6 @@ export default {
     color: #262626;
     -webkit-justify-content: center;
     justify-content: center;
-    margin-top: 12px;
     max-width: 450px;
     margin-left: auto;
     margin-right: auto;
@@ -180,7 +186,7 @@ export default {
     margin: 22px auto 12px;
     background-repeat: no-repeat;
     background-position: 0 -130px;
-    height: 51px;
+    height: 75px;
     width: 175px;
     text-align: center;
 }

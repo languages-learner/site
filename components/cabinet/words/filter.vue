@@ -17,7 +17,7 @@
                     v-model="searchText"
                     :autofocus="true"
                     placeholder="Поиск"
-                    @input="onUpdateTxt"
+                    debounce="300"
                 ></b-form-input>
             </b-col>
             <!--
@@ -144,10 +144,6 @@ export default {
         this.update()
     },
     methods: {
-        onUpdateTxt(text) {
-            var oldText = this.searchText
-            console.log(text, oldText)
-        },
         onUpdateFilterProperty() {
             this.update()
         },
@@ -199,6 +195,11 @@ export default {
                         }
                     })
                 )
+        }
+    },
+    watch: {
+        searchText() {
+            this.update()
         }
     }
 }

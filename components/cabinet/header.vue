@@ -5,6 +5,7 @@
                 cols-sm="4"
                 cols-md="2"
                 class="title d-flex align-items-center"
+                v-b-toggle.sidebar-1
                 >{{ title }}</b-col
             >
             <b-col cols-sm="8" cols-md="10" class="avatar-container">
@@ -32,7 +33,7 @@
                             Profile
                         </n-link></b-dropdown-item
                     >
-                    <b-dropdown-item href="#">Logout</b-dropdown-item>
+                    <b-dropdown-item @click="logout">Logout</b-dropdown-item>
                 </b-dropdown>
             </b-col>
         </b-row>
@@ -53,6 +54,13 @@ export default {
                 return str[0].toUpperCase() + str.substring(1)
             return ''
         }
+    },
+    methods: {
+        logout() {
+            this._logoutUser().then(() => {
+                this.$nuxt.$router.push(this.localePath('index'))
+            })
+        }
     }
 }
 </script>
@@ -65,6 +73,11 @@ header {
         font-size: 0.8rem;
         color: rgba(58, 189, 230, 0.705);
         font-weight: bold;
+        outline: none !important;
+
+        @media (max-width: @md) {
+            text-decoration: underline;
+        }
     }
 
     .avatar-container {

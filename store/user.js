@@ -67,12 +67,15 @@ export const actions = {
     loginPopup({ dispatch, commit }, provider) {
         return new Promise((resolve, reject) => {
             this.$fireAuth
-                .signInWithPopup(provider)
+                .signInWithRedirect(provider)
+                //.signInWithPopup(provider)
                 .then(function(result) {
+                    console.log('loginSuccess', result)
                     dispatch('loginSuccess', result)
                     resolve(result)
                 })
                 .catch(function(error) {
+                    console.log('loginFailed', error)
                     dispatch('loginFailed', error)
                     reject(error)
                 })
@@ -127,17 +130,18 @@ export const actions = {
         commit('setUser', userInfo)
     },
     logoutUser({ commit }) {
-        this.$fireAuth
-            .signOut()
-            .then(() => {
-                // Sign-out successful.
-            })
-            .catch(error => {
-                // An error happened.
-            })
-
-        commit('removeToken')
-        commit('setUser', null)
+        return new Promise((resolve, reject) => {
+            this.$fireAuth
+                .signOut()
+                .then(() => {
+                    commit('removeToken')
+                    commit('setUser', null)
+                    resolve()
+                })
+                .catch(error => {
+                    reject()
+                })
+        })
     },
     updateUser({ commit }, user) {
         return new Promise((resolve, reject) => {

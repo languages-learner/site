@@ -3,7 +3,7 @@
         <!-- Filter -->
         <template>
             <b-row>
-                <b-col cols="5" class="pr-0">
+                <b-col md="5" cols="12" class="m-0 pr-md-0">
                     <b-form-select
                         class="select-languages"
                         placeholder="Languages"
@@ -14,7 +14,7 @@
                         v-model="selectedLanguages"
                     />
                 </b-col>
-                <b-col cols="7" class="pl-0">
+                <b-col md="7" cols="12" class="m-0 pl-md-0 mt-md-0 mt-3">
                     <b-form-input
                         class="input-word"
                         placeholder="Insert your word here"
@@ -30,14 +30,14 @@
 
         <!-- Word label -->
         <template
-            ><div class="selected-word-container mt-5">
+            ><div class="selected-word-container mt-5 d-md-block d-none">
                 <span class="pr-3">{{ word }}</span>
                 <!--<sui-icon @click="Voice(word)" name="volume up icon" />-->
             </div></template
         >
 
         <!-- Principals translatins -->
-        <template v-if="principalsTranslations.length > 0">
+        <template v-if="word != '' && principalsTranslations.length > 0">
             <div class="principals-translatins mt-5">
                 <div class="list-label">
                     <label>Principals translations</label>
@@ -100,7 +100,7 @@
         </template>
 
         <!-- Personal translatins -->
-        <template>
+        <template v-if="word != ''">
             <div class="personal-translatins mt-5">
                 <div class="list-label">
                     <label>Personal translations</label>
@@ -143,7 +143,7 @@ export default {
     mixins: [],
     data() {
         return {
-            word: 'проверка',
+            word: '',
             inProcessSearchWord: false,
             selectedLanguages: null,
             translates: [
@@ -310,6 +310,10 @@ export default {
         display: flex !important;
         align-items: center !important;
 
+        @media (max-width: @md) {
+            border-radius: 10px !important;
+        }
+
         i {
             padding-top: 16px !important;
         }
@@ -318,10 +322,13 @@ export default {
         max-width: 1000px !important;
         width: 100%;
         height: 50px;
-        input {
-            border: none !important;
-            border-radius: 0 15px 15px 0 !important;
-            background: rgba(141, 141, 141, 0.089) !important;
+        outline: none !important;
+        border: none !important;
+        border-radius: 0 15px 15px 0 !important;
+        background: rgba(141, 141, 141, 0.089) !important;
+
+        @media (max-width: @md) {
+            border-radius: 10px !important;
         }
     }
 }

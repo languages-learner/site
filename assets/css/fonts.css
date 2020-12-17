@@ -1,0 +1,5 @@
+@font-face {
+    font-family: "Skandis";
+    src: url("~static/Skandis.woff") format("woff"),
+    url("~static/Skandis.otf") format("opentype");
+}

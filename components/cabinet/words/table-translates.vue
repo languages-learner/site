@@ -24,7 +24,7 @@
                 hover
                 responsive
                 fixed
-                @filtered="$emit('onFiltered', $event)"
+                @filtered="onFiltered"
                 tdClass="word-table-column"
             >
                 <!-- BUSY -->
@@ -135,6 +135,10 @@ export default {
             var t = ''
             value.forEach(x => (t += x.text + ','))
             return t.substring(0, t.length - 1)
+        },
+        onFiltered(filteredItems) {
+            console.log('onFiltered', filteredItems)
+            this.$emit('onFiltered', filteredItems)
         }
     },
     mounted() {

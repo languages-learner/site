@@ -8,12 +8,15 @@ export const userMixin = {
             currentUser: 'user/getCurrentUser'
         }),
         currentUserUid() {
+            if (!this.checkCurrentUser()) return 0
             return this.currentUser.uid
         },
         currentUserLogin() {
+            if (!this.checkCurrentUser()) return '@'
             return this.currentUser.email.split('@')[0]
         },
         currentUserFullName() {
+            if (!this.checkCurrentUser()) return ''
             if (
                 this.currentUserFirstName + ' ' + this.currentUserLastName ==
                 ' '
@@ -25,11 +28,13 @@ export const userMixin = {
                 )
         },
         currentUserFirstName() {
+            if (!this.checkCurrentUser()) return ''
             return this.currentUser.firstName == undefined
                 ? ''
                 : this.currentUser.firstName
         },
         currentUserLastName() {
+            if (!this.checkCurrentUser()) return ''
             return this.currentUser.lastName == undefined
                 ? ''
                 : this.currentUser.lastName
@@ -41,6 +46,9 @@ export const userMixin = {
         }
     },
     methods: {
+        checkCurrentUser() {
+            return this.currentUser != undefined && this.currentUser != null
+        },
         ...mapActions({
             _loginUser: 'user/loginUser',
             _loginWithGoogle: 'user/loginWithGoogle',

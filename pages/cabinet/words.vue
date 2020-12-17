@@ -33,10 +33,11 @@ export default {
             wordItems: []
         }
     },
-
+    mounted() {
+        this.loadTranslates()
+    },
     methods: {
         onUpdateFilter(data) {
-            console.log('onUpdateFilter', data)
             this.$set(this, 'filter', data)
         },
         onFiltered(filteredItems) {
@@ -44,7 +45,6 @@ export default {
         },
         loadTranslates() {
             var groupBy = (items, key) => {
-                console.log(items, 'items')
                 return items.reduce(function(rv, x) {
                     ;(rv[x[key]] = rv[x[key]] || []).push(x)
                     return rv
@@ -61,6 +61,7 @@ export default {
                     ).map(items => groupBy(items, 'language'))
 
                     this.$set(this, 'wordItems', wordItems)
+                    this.valueWords = wordItems.length
                     this.tableBusyState = false
                 })
         },
