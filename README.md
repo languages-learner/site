@@ -2,7 +2,7 @@
 
 > Web part of service
 
-[Demo site](http://109.195.85.22:20005/)
+[Demo site]()
 
 ## Build Setup
 
