@@ -32,13 +32,12 @@
         <template
             ><div class="selected-word-container mt-5 d-md-block d-none">
                 <span class="pr-3">{{ word }}</span>
-                <!--<sui-icon @click="Voice(word)" name="volume up icon" />-->
             </div></template
         >
 
         <!-- Principals translatins -->
         <template v-if="word != '' && principalsTranslations.length > 0">
-            <div class="principals-translatins mt-5">
+            <div class="castom-translations mt-5">
                 <div class="list-label">
                     <label>Principals translations</label>
                 </div>
@@ -101,7 +100,7 @@
 
         <!-- Personal translatins -->
         <template v-if="word != ''">
-            <div class="personal-translatins mt-5">
+            <div class="personal-translations mt-5">
                 <div class="list-label">
                     <label>Personal translations</label>
                 </div>
@@ -109,7 +108,6 @@
                     <b-form-tags
                         input-id="tags-state-event"
                         v-model="personalTranslations"
-                        :tag-validator="personalTranslationsValidator"
                         placeholder="Enter your translate"
                         separator=" "
                     ></b-form-tags>
@@ -146,26 +144,7 @@ export default {
             word: '',
             inProcessSearchWord: false,
             selectedLanguages: null,
-            translates: [
-                /*{
-                    wordId: 2,
-                    languageId: 2,
-                    text: 'bdasdasd',
-                    principal: true
-                },
-                {
-                    wordId: null,
-                    languageId: 2,
-                    text: 'cdsdddddaaa',
-                    principal: true
-                },
-                {
-                    wordId: 2,
-                    languageId: 2,
-                    text: 'aaaa',
-                    principal: false
-                }*/
-            ],
+            translates: [],
             personalTranslations: []
         }
     },
@@ -184,9 +163,6 @@ export default {
                 }
             }, 1000)
         },
-        personalTranslationsValidator(translate) {
-            return true
-        },
         containsInPersonalTranslations(translate) {
             return (
                 this.personalTranslations.findIndex(x => x == translate) != -1
@@ -204,7 +180,6 @@ export default {
                     this.selectedLanguagesIds[1]
                 )
                 .then(data => {
-                    console.log(data, 'new translates')
                     this.$set(this, 'translates', data)
                     this.personalTranslations = this.translates
                         .filter(translate => translate.wordId != null)
@@ -247,7 +222,6 @@ export default {
 
             addTranslates().then(data => {
                 removeTranslates().then(data => {
-                    console.log(data, 'saveTranslates')
                     this.searchWord()
                 })
             })
@@ -346,7 +320,7 @@ export default {
     font-weight: bold;
 }
 
-.principals-translatins {
+.castom-translations {
     .list {
         .item {
             height: 25px;
@@ -367,24 +341,8 @@ export default {
     }
 }
 
-.personal-translatins {
-    .list {
-        .item {
-            height: 25px;
-            i {
-                cursor: pointer;
-                opacity: 0;
-                color: gray;
-                font-size: 10px;
-            }
-
-            &:hover {
-                i {
-                    opacity: 1;
-                }
-            }
-        }
-    }
+.personal-translations {
+    .castom-translations;
     .new-translate {
         display: flex;
         align-items: center;

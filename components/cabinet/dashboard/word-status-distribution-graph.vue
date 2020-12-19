@@ -25,19 +25,14 @@ export default {
             labels: ['Words', 'Learning', 'Learned'],
             subLabels: ['Your', 'Public'],
             values: [
-                // with the given Labels and SubLabels here's what the values represent:
-                //
-                // Direct, Social, Ads
-                //    |      |     |
-                //    v      v     v
-                [3000, 2500], // Segments of "Impressions" from top to bottom
-                [3000, 1700], // Segments of "Add To Cart"
-                [600, 200] // Segments of "Buy"
+                [3000, 2500],
+                [3000, 1700],
+                [600, 200]
             ],
             colors: [
-                ['#FFB178', '#FF3C8E'], // color set for "Impressions" segment
-                ['#A0BBFF', '#EC77FF'], // color set for "Add To Cart" segment
-                ['#A0F9FF', '#7795FF'] // color set for "Buy" segment
+                ['#FFB178', '#FF3C8E'],
+                ['#A0BBFF', '#EC77FF'],
+                ['#A0F9FF', '#7795FF']
             ],
             direction: 'horizontal',
             gradientDirection: 'horizontal',

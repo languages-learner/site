@@ -17,7 +17,6 @@
                             <p id="cancel-label">Please wait...</p>
                         </div>
                     </template>
-                    <!--<CabinetLoader v-if="state == 'loading'" />-->
                     <div v-if="state != 'loading'">
                         <CabinetHeader />
                         <nuxt />
@@ -29,13 +28,11 @@
 </template>
 
 <script>
-/* Mixins */
-import { styleMixin } from '~/vuex-mixins/style'
 import { userMixin } from '~/vuex-mixins/user.js'
 
 export default {
     middleware: 'auth',
-    mixins: [styleMixin, userMixin],
+    mixins: [userMixin],
     data() {
         return {
             state: 'loading'
@@ -47,7 +44,6 @@ export default {
     methods: {
         getUserModel() {
             this.$repositories['users'].getUserData().then(data => {
-                console.log(data, 'data')
                 if (data == '') {
                     this.addUser()
                 } else {
@@ -65,13 +61,6 @@ export default {
                     this.getUserModel()
                 })
         }
-    },
-    watch: {
-        /*currentUser() {
-            if (this.checkCurrentUser()) {
-                this.getUserModel()
-            }
-        }*/
     }
 }
 </script>
@@ -81,6 +70,10 @@ export default {
     width: 25%;
     min-width: 250px;
     max-width: 290px;
+
+    @media (max-width: @md) {
+        display: none;
+    }
 }
 
 .cabinet-body {
@@ -95,13 +88,7 @@ export default {
 
 .mobile-sidebar-container {
     display: none;
-}
-
-@media (max-width: @md) {
-    .sidebar-container {
-        display: none;
-    }
-    .mobile-sidebar-container {
+    @media (max-width: @md) {
         display: block;
     }
 }

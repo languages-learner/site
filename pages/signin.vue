@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MainIdentity type="signup" />
+        <MainIdentity type="signin" />
     </div>
 </template>
 

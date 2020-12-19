@@ -24,7 +24,6 @@ export const mutations = {
         for (var key in data) {
             Vue.set(state.currentUser, key, data[key])
         }
-        console.log(state.currentUser, 'state.currentUser')
     }
 }
 
@@ -68,38 +67,13 @@ export const actions = {
         return new Promise((resolve, reject) => {
             this.$fireAuth
                 .signInWithRedirect(provider)
-                //.signInWithPopup(provider)
                 .then(function(result) {
-                    console.log('loginSuccess', result)
-                    dispatch('loginSuccess', result)
                     resolve(result)
                 })
                 .catch(function(error) {
-                    console.log('loginFailed', error)
-                    dispatch('loginFailed', error)
                     reject(error)
                 })
         })
-    },
-    async loginSuccess({ commit }, result) {
-        // console.log(result);
-        // // This gives you a Google Access Token. You can use it to access the Google API.
-        // var token = result.credential.accessToken;
-        // // The signed-in user info.
-        // var user = result.user;
-        // // ...
-    },
-    async loginFailed({ dispatch, commit }, error) {
-        // console.error(error);
-        // dispatch('notifications/showToast', { title: 'Ошибка входа', message: error.message }, { root: true })
-        // // Handle Errors here.
-        // var errorCode = error.code;
-        // var errorMessage = error.message;
-        // // The email of the user's account used.
-        // var email = error.email;
-        // // The this.$fireAuthObj.AuthCredential type that was used.
-        // var credential = error.credential;
-        // // ...
     },
     createUser({ commit }, data) {
         return new Promise((resolve, reject) => {
@@ -123,7 +97,6 @@ export const actions = {
             avatar: user.photoURL,
             uid: user.uid,
             emailVerified: user.emailVerified
-            // providerData: user.providerData
         }
 
         commit('setToken', token)
@@ -152,11 +125,9 @@ export const actions = {
                     role: user.role
                 })
                 .then(function(result) {
-                    // dispatch('updateUserSuccess',result)
                     resolve(result)
                 })
                 .catch(function(error) {
-                    // dispatch('updateUserFailed',error)
                     reject(error)
                 })
         })

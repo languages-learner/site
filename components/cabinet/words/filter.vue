@@ -1,6 +1,7 @@
 <template>
     <div>
         <b-row no-gutters>
+            <!-- Input -->
             <b-col
                 lg="4"
                 md="6"
@@ -20,32 +21,8 @@
                     debounce="300"
                 ></b-form-input>
             </b-col>
-            <!--
-                <b-col
-                md="4"
-                sm="12"
-                class="d-flex align-items-center justify-content-start pl-md-2"
-            >
-                <div
-                    v-for="(language, index) in _languages"
-                    :key="'language' + index"
-                    class="img-sm-selector"
-                    :class="{ active: selectedLangsId.includes(language.id) }"
-                    @click="selectLanguage(language)"
-                >
-                    <img :src="language.picture" />
-                </div>
-            </b-col>
-            -->
-            <!--<b-col
-                lg="1"
-                md="3"
-                sm="12"
-                v-if="searchText && searchText != ''"
-                class="pl-md-2"
-            >
-                <b-button variant="info" class="w-100">Add</b-button>
-            </b-col>-->
+
+            <!-- Languages selector -->
             <b-col
                 lg="2"
                 md="6"
@@ -66,29 +43,30 @@
                     </b-dropdown-form>
                 </b-dropdown>
             </b-col>
+
             <!-- Filters -->
-            <template>
-                <b-col
-                    lg="2"
-                    md="6"
-                    sm="6"
-                    order-lg="4"
-                    order-md="1"
-                    order-sm="1"
-                    order="1"
-                    class="pl-md-1 pl-sm-1 my-sm-0 my-1"
-                >
-                    <b-dropdown text="Filters" class="w-100" variant="info">
-                        <b-dropdown-form>
-                            <b-form-checkbox-group
-                                v-model="selectedFilters"
-                                :options="filters"
-                                @input="onUpdateFilterProperty"
-                            ></b-form-checkbox-group>
-                        </b-dropdown-form>
-                    </b-dropdown>
-                </b-col>
-            </template>
+            <b-col
+                lg="2"
+                md="6"
+                sm="6"
+                order-lg="4"
+                order-md="1"
+                order-sm="1"
+                order="1"
+                class="pl-md-1 pl-sm-1 my-sm-0 my-1"
+            >
+                <b-dropdown text="Filters" class="w-100" variant="info">
+                    <b-dropdown-form>
+                        <b-form-checkbox-group
+                            v-model="selectedFilters"
+                            :options="filters"
+                            @input="onUpdateFilterProperty"
+                        ></b-form-checkbox-group>
+                    </b-dropdown-form>
+                </b-dropdown>
+            </b-col>
+
+            <!-- Action buttons -->
             <b-col
                 lg="2"
                 md="6"
@@ -128,14 +106,14 @@ export default {
         return {
             searchText: '',
             selectedLangsId: [0, 1],
-            selectedFilters: ['learned'],
-            filters: [{ value: 'learned', text: 'Выученные' }],
+            selectedFilters: [],
+            filters: [{ value: 'learned', text: 'Learned' }],
 
             selectedAdditions: [],
             additions: [
-                { value: 'learned', text: 'Выучено' },
-                { value: 'timeStamp', text: 'Дата' },
-                { value: 'wordGroupId', text: 'Группа' }
+                { value: 'learned', text: 'Learned' },
+                { value: 'timeStamp', text: 'Date' },
+                { value: 'wordGroupId', text: 'Group' }
             ]
         }
     },

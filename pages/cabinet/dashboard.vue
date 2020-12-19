@@ -1,5 +1,5 @@
 <template>
-    <CabinetContentTemplate :subTitle="'Bonjour ' + currentUserFirstName">
+    <CabinetContentTemplate :subTitle="subTitle">
         <b-row class="p-0 m-0">
             <b-col lg="6" cols="12" class="p-0 pr-lg-1">
                 <CabinetDashboardWordStatusDistributionGraph />
@@ -12,16 +12,14 @@
 </template>
 
 <script>
-/* Mixins */
 import { userMixin } from '~/vuex-mixins/user.js'
 export default {
     layout: 'cabinet',
     mixins: [userMixin],
-    data() {
-        return {}
-    },
-    mounted() {}
+    computed: {
+        subTitle() {
+            return `Bonjour ${this.currentUserFirstName}`
+        }
+    }
 }
 </script>
-
-<style lang="less" scoped></style>

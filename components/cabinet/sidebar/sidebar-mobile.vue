@@ -1,11 +1,7 @@
 <template>
     <div>
-        <!--<div v-b-toggle.sidebar-1 class="toggle-button">
-            <b-icon icon="menu-button-wide" aria-hidden="true"></b-icon>
-        </div>-->
         <b-sidebar id="sidebar-1" title="Menu" body-class="sidebar" shadow>
-            <CabinetSidebarContent style="height: auto;">
-            </CabinetSidebarContent>
+            <CabinetSidebarContent />
         </b-sidebar>
     </div>
 </template>
@@ -24,5 +20,6 @@ export default {}
 
 .sidebar {
     background: none !important;
+    height: auto;
 }
 </style>

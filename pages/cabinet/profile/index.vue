@@ -34,7 +34,6 @@
 </template>
 
 <script>
-/* Mixins */
 import { userMixin } from '~/vuex-mixins/user.js'
 export default {
     layout: 'cabinet',

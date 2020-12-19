@@ -18,9 +18,7 @@
 </template>
 
 <script>
-/* Mixins */
 import { userMixin } from '~/vuex-mixins/user'
-
 export default {
     mixins: [userMixin],
     layout: 'cabinet',

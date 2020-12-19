@@ -1,6 +1,6 @@
 <template>
     <div class="cabinet-lay">
-        <div class="welcome">{{ subTitle }}</div>
+        <div>{{ subTitle }}</div>
         <div class="content">
             <slot />
         </div>

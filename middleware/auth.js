@@ -3,15 +3,15 @@ import { auth } from 'firebase'
 export default function({ app, store, redirect, error }) {
     if (!store.state.user.currentUser) {
         if (
-            app.getRouteBaseName() != 'login' &&
+            app.getRouteBaseName() != 'signin' &&
             app.getRouteBaseName() != 'signup'
         )
-            return redirect(app.localePath('login'))
+            return redirect(app.localePath('signin'))
     }
 
     if (store.state.user.currentUser) {
         if (
-            app.getRouteBaseName() == 'login' ||
+            app.getRouteBaseName() == 'signin' ||
             app.getRouteBaseName() == 'signup'
         )
             return redirect(app.localePath('/cabinet/dashboard'))

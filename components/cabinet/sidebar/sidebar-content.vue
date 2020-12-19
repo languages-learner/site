@@ -43,15 +43,8 @@ export default {
                     icon: 'pie-chart',
                     path: '/cabinet/dashboard'
                 },
-                //{ title: 'Test', icon: 'pencil', path: '/cabinet/test' },
                 { title: 'Add', icon: 'bag-plus', path: '/cabinet/add' },
                 { title: 'Words', icon: 'collection', path: '/cabinet/words' }
-                //{ title: 'Rules', icon: 'book', path: '/cabinet/rules' },
-                /*{
-                    title: 'Tasks',
-                    icon: 'card-checklist',
-                    path: '/cabinet/tasks'
-                }*/
             ]
         }
     },
@@ -60,16 +53,6 @@ export default {
             var el = this.$route.path.split('/')
             var path = el[el.length - 1]
             return navigation.title.toLowerCase() == path
-        }
-    },
-    computed: {
-        acticeItemIndex() {
-            return 0
-            /*return this.items.findIndex(
-                item =>
-                    this.localePath(item.route) ==
-                    this.$nuxt.$nuxt.$route.fullPath
-            )*/
         }
     }
 }

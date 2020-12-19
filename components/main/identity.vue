@@ -2,38 +2,34 @@
     <div>
         <div class="form-container">
             <div class="row p-0 m-0">
-                <div class="form-signup col-12">
+                <div class="form-identity col-12">
                     <h1 class="logo">Languages Learner</h1>
                     <div class="flex items-center justify-around">
                         <b-button
                             class="form-input"
-                            v-show="state != 'success'"
-                            @click="loginWith(_loginWithGoogle)"
+                            @click="identityWith(_loginWithGoogle)"
                             >Google</b-button
                         >
                         <b-button
                             class="form-input"
-                            v-show="state != 'success'"
-                            @click="loginWith(_loginWithFacebook)"
+                            @click="identityWith(_loginWithFacebook)"
                             >Facebook</b-button
                         >
                         <b-button
                             class="form-input"
-                            v-show="state != 'success'"
-                            @click="loginWith(_loginWithGithub)"
+                            @click="identityWith(_loginWithGithub)"
                             >Github</b-button
                         >
                         <b-button
                             class="form-input"
-                            v-show="state != 'success'"
-                            @click="loginWith(_loginWithMicrosoft)"
+                            @click="identityWith(_loginWithMicrosoft)"
                             >Microsoft</b-button
                         >
                     </div>
 
                     <div class="divider">
                         <div class="line"></div>
-                        <div class="text">ИЛИ</div>
+                        <div class="text">OR</div>
                         <div class="line"></div>
                     </div>
 
@@ -53,7 +49,7 @@
                         v-if="error != null"
                         class="ui error message form-input"
                     >
-                        <div class="header">Ошибка</div>
+                        <div class="header">Error</div>
                         <span>{{ error }}</span>
                     </div>
 
@@ -74,20 +70,42 @@
                         v-if="state == 'success'"
                         class="ui success message form-input"
                     >
-                        <div class="header">Успешно</div>
-                        <span>Вы будете перенаправлены в ваш кабинет</span>
+                        <div class="header">Success</div>
+                        <span>You will be redirected to your account</span>
                     </div>
                 </div>
-                <div class="form-signup form-have-account col-12 text-center">
-                    Нет аккаунта?
-                    <nuxt-link
-                        tag="span"
-                        :to="localePath('signup')"
-                        class="registration-text pl-2"
+
+                <!-- for signin -->
+                <template v-if="type == 'signin'">
+                    <div
+                        class="form-signup form-have-account col-12 text-center"
                     >
-                        Регистрация</nuxt-link
+                        Do not have an account?
+                        <nuxt-link
+                            tag="span"
+                            :to="localePath('signup')"
+                            class="registration-text pl-2"
+                        >
+                            Registration</nuxt-link
+                        >
+                    </div>
+                </template>
+
+                <!-- for signup -->
+                <template v-if="type == 'signup'">
+                    <div
+                        class="form-signup form-have-account col-12 text-center"
                     >
-                </div>
+                        Do you have an account?
+                        <nuxt-link
+                            tag="span"
+                            :to="localePath('signin')"
+                            class="registration-text pl-2"
+                        >
+                            Login</nuxt-link
+                        >
+                    </div>
+                </template>
             </div>
         </div>
     </div>
@@ -96,9 +114,13 @@
 <script>
 import { userMixin } from '~/vuex-mixins/user'
 export default {
-    name: 'Login',
-    middleware: 'auth',
     mixins: [userMixin],
+    props: {
+        type: {
+            type: String,
+            required: true
+        }
+    },
     data() {
         return {
             email: null,
@@ -108,9 +130,18 @@ export default {
         }
     },
     methods: {
-        loginWith(func, args) {
+        identityWith(func, args) {
             this.state = 'loading'
-
+            switch (this.type) {
+                case 'signin':
+                    this.signinWith(func, args)
+                    break
+                case 'signup':
+                    this.signupWith(func, args)
+                    break
+            }
+        },
+        signinWith(func, args) {
             func(args)
                 .then(() => {
                     this.state = 'success'
@@ -120,13 +151,29 @@ export default {
                     this.error = error.message
                     this.state = 'error'
                 })
+        },
+        signupWith(func, args) {
+            func(args)
+                .then(result => {
+                    this.state = 'success'
+
+                    let cred = null
+                    if (args) {
+                        cred = new PasswordCredential({
+                            id: args.login,
+                            name: args.name,
+                            password: args.password
+                        })
+                    }
+                    this.$nuxt.$router.push(this.localePath('index'))
+                })
+                .catch(error => {
+                    this.error = error.message
+                    this.state = 'error'
+                })
         }
     },
     mounted() {
-        /*if (this.checkCurrentUser()) {
-            this.$nuxt.$router.push(this.localePath('/cabinet/dashboard'))
-        }*/
-
         if (window.PasswordCredential || window.FederatedCredential) {
             navigator.credentials
                 .get({
@@ -169,7 +216,7 @@ export default {
     align-items: center;
 }
 
-.form-signup {
+.form-identity {
     -webkit-align-items: center;
     align-items: center;
     background-color: #fff;
@@ -188,15 +235,6 @@ export default {
     background-position: 0 -130px;
     height: 75px;
     width: 175px;
-    text-align: center;
-}
-
-.discription {
-    color: #8e8e8e;
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 20px;
-    margin: 0 40px 10px;
     text-align: center;
 }
 
@@ -234,10 +272,6 @@ export default {
     justify-content: center;
     align-items: center;
     min-height: 130px;
-}
-
-.label-container {
-    left: 0;
 }
 
 .registration-text {

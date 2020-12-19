@@ -27,7 +27,7 @@
                     <b-dropdown-item href="#"
                         ><n-link
                             tag="div"
-                            :to="localePath('/cabinet/profile')"
+                            :to="localePath('/cabinet/profile/settings')"
                             class="nav-item"
                         >
                             Profile
@@ -41,9 +41,7 @@
 </template>
 
 <script>
-/* Mixins */
 import { userMixin } from '~/vuex-mixins/user.js'
-
 export default {
     mixins: [userMixin],
     computed: {
@@ -93,33 +91,5 @@ header {
             font-weight: bold;
         }
     }
-}
-
-.split-button {
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.split-button.enabled {
-    background: #007bff;
-    color: white;
-}
-.split-button.enabled:hover {
-    border: #007bff solid 1px;
-    background: white;
-    color: #007bff;
-}
-
-.split-button.disabled {
-    border: #007bff solid 1px;
-    background: white;
-    color: #007bff;
-}
-.split-button.disabled:hover {
-    background: #007bff;
-    color: white;
 }
 </style>

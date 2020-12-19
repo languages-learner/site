@@ -5,7 +5,7 @@
   "author": "Sasha <sasha.chernigin@mail.ru>",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --hostname 192.168.0.104 --port 12002",
     "build": "nuxt build",
     "start": "nuxt start",
     "build:modern": "nuxt build --modern=server",
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@babel/runtime-corejs2": "^7.6.3",
+    "@nuxtjs/dotenv": "^1.4.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.5.1",
     "eslint-friendly-formatter": "^4.0.1",

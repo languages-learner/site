@@ -58,7 +58,6 @@
 </template>
 
 <script>
-/* Mixins */
 import { userMixin } from '~/vuex-mixins/user.js'
 export default {
     layout: 'cabinet',
@@ -74,12 +73,15 @@ export default {
         }
     },
     mounted() {
-        this.form.firstName = this.currentUserFirstName
-        this.form.lastName = this.currentUserLastName
-        this.form.naiveLanguage = this.currentUser.naiveLanguage
-        this.form.learningLanguage = this.currentUser.learningLanguage
+        this.setDefaultValues()
     },
     methods: {
+        setDefaultValues() {
+            this.form.firstName = this.currentUserFirstName
+            this.form.lastName = this.currentUserLastName
+            this.form.naiveLanguage = this.currentUser.naiveLanguage
+            this.form.learningLanguage = this.currentUser.learningLanguage
+        },
         onSubmit(evt) {
             evt.preventDefault()
             this.form.uid = this.currentUserUid
@@ -88,24 +90,11 @@ export default {
                     this._updateCurrentUserData(data)
                 })
             })
-            /*
-            alert(JSON.stringify(this.form))*/
         },
         onReset(evt) {
             evt.preventDefault()
-            // Reset our form values
-            this.form.email = ''
-            this.form.name = ''
-            this.form.food = null
-            this.form.checked = []
-            // Trick to reset/clear native browser form validation state
-            this.show = false
-            this.$nextTick(() => {
-                this.show = true
-            })
+            this.setDefaultValues()
         }
     }
 }
 </script>
-
-<style lang="less" scoped></style>

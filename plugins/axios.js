@@ -9,14 +9,15 @@ export default function(context) {
     }
     setAccessToken()
 
-    //{ $axios, redirect }
     context.$axios.defaults.httpsAgent = new https.Agent({
         rejectUnauthorized: false
     })
 
-    context.$axios.onRequest(config => {
-        console.log('Making request to ' + config.url)
-    })
+    if (context.isDev) {
+        context.$axios.onRequest(config => {
+            console.log(`Making request to [${config.method}] ${config.url}`)
+        })
+    }
 
     context.$axios.onError(error => {
         const code = parseInt(error.response && error.response.status)
@@ -34,7 +35,7 @@ export default function(context) {
                 position: 'topRight'
             })
             context.store.dispatch('user/logoutUser')
-            context.redirect('/login')
+            context.redirect('/signin')
         }
     })
 }
