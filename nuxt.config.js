@@ -187,8 +187,8 @@ module.exports = {
         baseURL: process.env.SERVER_URL || 'http://localhost:5000'
     },
     server: {
-        port: 12001,
-        host: '192.168.0.104',
+        port: process.env.PORT || 3000,
+        host: process.env.HOST || 'localhost',
         timing: false
     }
 }
